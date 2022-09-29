@@ -1,0 +1,911 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "ADFDevTest-03"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureBlobStorage2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage2'"
+		},
+		"AzureBlobStorage3_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage3'"
+		},
+		"AzureBlobStorage4_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage4'"
+		},
+		"AzureBlobStorage5_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage5'"
+		},
+		"CosmosDb1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'CosmosDb1'"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dataflow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Account": {},
+									"ServiceResource": {},
+									"ServiceResourceSkill": {},
+									"Skill": {},
+									"ServiceTerritoryMember": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-09-23T17:40:35Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Account')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SalesForce /Salesforce Global/Master/Account ",
+						"container": "raw"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Id": {
+							"type": "string"
+						},
+						"IsDeleted": {
+							"type": "boolean"
+						},
+						"MasterRecordId": {
+							"type": "null"
+						},
+						"Name": {
+							"type": "string"
+						},
+						"Phone": {
+							"type": "string"
+						},
+						"Rating": {
+							"type": "string"
+						},
+						"PersonEmail": {
+							"type": "string"
+						},
+						"SAP_Customer_Number__c": {
+							"type": "string"
+						},
+						"LastName": {
+							"type": "string"
+						},
+						"FirstName": {
+							"type": "string"
+						},
+						"Salutation": {
+							"type": "null"
+						},
+						"MiddleName": {
+							"type": "null"
+						},
+						"Suffix": {
+							"type": "null"
+						},
+						"Type": {
+							"type": "null"
+						},
+						"RecordTypeId": {
+							"type": "string"
+						},
+						"ParentId": {
+							"type": "null"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CosmosDbSqlApiCollection1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CosmosDb1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "CosmosDbSqlApiCollection",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Internal_Comments__c": {
+							"type": "string"
+						},
+						"Mileage_Rate__c": {
+							"type": "string"
+						},
+						"AccountId": {
+							"type": "string"
+						},
+						"Phone": {
+							"type": "string"
+						},
+						"Travel_Rate__c": {
+							"type": "string"
+						},
+						"Rating": {
+							"type": "string"
+						},
+						"SAP_Customer_Number__c": {
+							"type": "string"
+						},
+						"Id": {
+							"type": "string"
+						},
+						"PersonEmail": {
+							"type": "string"
+						},
+						"Labor_Rate__c": {
+							"type": "string"
+						},
+						"Name": {
+							"type": "string"
+						}
+					}
+				},
+				"typeProperties": {
+					"collectionName": "test-db-1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/CosmosDb1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ServiceResource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SalesForce /Salesforce Global/Master/ServiceResource",
+						"container": "raw"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Id": {
+							"type": "string"
+						},
+						"AccountId": {
+							"type": "string"
+						},
+						"OwnerId": {
+							"type": "string"
+						},
+						"Name": {
+							"type": "string"
+						},
+						"Internal_Comments__c": {
+							"type": "string"
+						},
+						"Labor_Rate__c": {
+							"type": "string"
+						},
+						"Mileage_Rate__c": {
+							"type": "string"
+						},
+						"Travel_Rate__c": {
+							"type": "string"
+						},
+						"CurrencyIsoCode": {
+							"type": "string"
+						},
+						"RecordTypeId": {
+							"type": "null"
+						},
+						"CreatedDate": {
+							"type": "string"
+						},
+						"CreatedById": {
+							"type": "string"
+						},
+						"LastModifiedDate": {
+							"type": "string"
+						},
+						"LastModifiedById": {
+							"type": "string"
+						},
+						"SystemModstamp": {
+							"type": "string"
+						},
+						"Net_Promoter_Score__c": {
+							"type": "null"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ServiceResourceSkill')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SalesForce /Salesforce Global/Master/ServiceResourceSkill",
+						"container": "raw"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Id": {
+							"type": "string"
+						},
+						"ServiceResourceId": {
+							"type": "string"
+						},
+						"SkillId": {
+							"type": "string"
+						},
+						"IsDeleted": {
+							"type": "boolean"
+						},
+						"SkillNumber": {
+							"type": "string"
+						},
+						"Service_Resource_email__c": {
+							"type": "string"
+						},
+						"CurrencyIsoCode": {
+							"type": "string"
+						},
+						"CreatedDate": {
+							"type": "string"
+						},
+						"CreatedById": {
+							"type": "string"
+						},
+						"LastModifiedDate": {
+							"type": "string"
+						},
+						"LastModifiedById": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage3')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ServiceTerritoryMember')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage5",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SalesForce /Salesforce Global/Master/ServiceTerritoryMember",
+						"container": "raw"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Id": {
+							"type": "string"
+						},
+						"IsDeleted": {
+							"type": "boolean"
+						},
+						"MemberNumber": {
+							"type": "string"
+						},
+						"Street": {
+							"type": "string"
+						},
+						"City": {
+							"type": "string"
+						},
+						"PostalCode": {
+							"type": "string"
+						},
+						"StateCode": {
+							"type": "string"
+						},
+						"CountryCode": {
+							"type": "string"
+						},
+						"Latitude": {
+							"type": "string"
+						},
+						"Longitude": {
+							"type": "string"
+						},
+						"CurrencyIsoCode": {
+							"type": "string"
+						},
+						"CreatedDate": {
+							"type": "string"
+						},
+						"CreatedById": {
+							"type": "string"
+						},
+						"LastModifiedDate": {
+							"type": "string"
+						},
+						"LastModifiedById": {
+							"type": "string"
+						},
+						"SystemModstamp": {
+							"type": "string"
+						},
+						"ServiceTerritoryId": {
+							"type": "string"
+						},
+						"ServiceResourceId": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage5')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Skill')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage4",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SalesForce /Salesforce Global/Master/Skill",
+						"container": "raw"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Id": {
+							"type": "string"
+						},
+						"IsDeleted": {
+							"type": "boolean"
+						},
+						"DeveloperName": {
+							"type": "string"
+						},
+						"Language": {
+							"type": "string"
+						},
+						"MasterLabel": {
+							"type": "string"
+						},
+						"CreatedDate": {
+							"type": "string"
+						},
+						"CreatedById": {
+							"type": "string"
+						},
+						"LastModifiedDate": {
+							"type": "string"
+						},
+						"LastModifiedById": {
+							"type": "string"
+						},
+						"SystemModstamp": {
+							"type": "string"
+						},
+						"LastViewedDate": {
+							"type": "null"
+						},
+						"Description": {
+							"type": "null"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage4')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage2_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage3')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage3_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage4')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage4_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage5')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage5_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CosmosDb1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"connectionString": "[parameters('CosmosDb1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Account",
+								"type": "DatasetReference"
+							},
+							"name": "Account"
+						},
+						{
+							"dataset": {
+								"referenceName": "ServiceResource",
+								"type": "DatasetReference"
+							},
+							"name": "ServiceResource"
+						},
+						{
+							"dataset": {
+								"referenceName": "ServiceResourceSkill",
+								"type": "DatasetReference"
+							},
+							"name": "ServiceResourceSkill"
+						},
+						{
+							"dataset": {
+								"referenceName": "Skill",
+								"type": "DatasetReference"
+							},
+							"name": "Skill"
+						},
+						{
+							"dataset": {
+								"referenceName": "ServiceTerritoryMember",
+								"type": "DatasetReference"
+							},
+							"name": "ServiceTerritoryMember"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "CosmosDbSqlApiCollection1",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						},
+						{
+							"name": "select2"
+						},
+						{
+							"name": "select3"
+						},
+						{
+							"name": "select4"
+						},
+						{
+							"name": "select5"
+						},
+						{
+							"name": "join1"
+						},
+						{
+							"name": "join2"
+						},
+						{
+							"name": "join3"
+						},
+						{
+							"name": "join4"
+						},
+						{
+							"name": "select6"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     start as timestamp (addDays(currentUTC(),-1)),",
+						"     end as timestamp (currentUTC())",
+						"}",
+						"source(output(",
+						"          Id as string,",
+						"          IsDeleted as boolean,",
+						"          MasterRecordId as string,",
+						"          Name as string,",
+						"          Phone as string,",
+						"          Rating as string,",
+						"          PersonEmail as string,",
+						"          SAP_Customer_Number__c as string,",
+						"          LastName as string,",
+						"          FirstName as string,",
+						"          Salutation as string,",
+						"          MiddleName as string,",
+						"          Suffix as string,",
+						"          Type as string,",
+						"          RecordTypeId as string,",
+						"          ParentId as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     modifiedAfter: ($start),",
+						"     modifiedBefore: ($end),",
+						"     documentForm: 'arrayOfDocuments') ~> Account",
+						"source(output(",
+						"          Id as string,",
+						"          AccountId as string,",
+						"          OwnerId as string,",
+						"          Name as string,",
+						"          Internal_Comments__c as string,",
+						"          Labor_Rate__c as string,",
+						"          Mileage_Rate__c as string,",
+						"          Travel_Rate__c as string,",
+						"          CurrencyIsoCode as string,",
+						"          RecordTypeId as string,",
+						"          CreatedDate as string,",
+						"          CreatedById as string,",
+						"          LastModifiedDate as string,",
+						"          LastModifiedById as string,",
+						"          SystemModstamp as string,",
+						"          Net_Promoter_Score__c as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     modifiedAfter: ($start),",
+						"     modifiedBefore: ($end),",
+						"     documentForm: 'arrayOfDocuments') ~> ServiceResource",
+						"source(output(",
+						"          Id as string,",
+						"          ServiceResourceId as string,",
+						"          SkillId as string,",
+						"          IsDeleted as boolean,",
+						"          SkillNumber as string,",
+						"          Service_Resource_email__c as string,",
+						"          CurrencyIsoCode as string,",
+						"          CreatedDate as string,",
+						"          CreatedById as string,",
+						"          LastModifiedDate as string,",
+						"          LastModifiedById as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     modifiedAfter: ($start),",
+						"     modifiedBefore: ($end),",
+						"     documentForm: 'arrayOfDocuments') ~> ServiceResourceSkill",
+						"source(output(",
+						"          Id as string,",
+						"          IsDeleted as boolean,",
+						"          DeveloperName as string,",
+						"          Language as string,",
+						"          MasterLabel as string,",
+						"          CreatedDate as string,",
+						"          CreatedById as string,",
+						"          LastModifiedDate as string,",
+						"          LastModifiedById as string,",
+						"          SystemModstamp as string,",
+						"          LastViewedDate as string,",
+						"          Description as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'arrayOfDocuments') ~> Skill",
+						"source(output(",
+						"          Id as string,",
+						"          IsDeleted as boolean,",
+						"          MemberNumber as string,",
+						"          Street as string,",
+						"          City as string,",
+						"          PostalCode as string,",
+						"          StateCode as string,",
+						"          CountryCode as string,",
+						"          Latitude as string,",
+						"          Longitude as string,",
+						"          CurrencyIsoCode as string,",
+						"          CreatedDate as string,",
+						"          CreatedById as string,",
+						"          LastModifiedDate as string,",
+						"          LastModifiedById as string,",
+						"          SystemModstamp as string,",
+						"          ServiceTerritoryId as string,",
+						"          ServiceResourceId as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'arrayOfDocuments') ~> ServiceTerritoryMember",
+						"Account select(mapColumn(",
+						"          Id,",
+						"          Name,",
+						"          Phone,",
+						"          Rating,",
+						"          PersonEmail",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"ServiceResource select(mapColumn(",
+						"          Id,",
+						"          AccountId,",
+						"          Internal_Comments__c,",
+						"          Labor_Rate__c,",
+						"          Mileage_Rate__c,",
+						"          Travel_Rate__c,",
+						"          Net_Promoter_Score__c",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select2",
+						"ServiceResourceSkill select(mapColumn(",
+						"          Id,",
+						"          ServiceResourceId,",
+						"          SkillId,",
+						"          Service_Resource_email__c",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select3",
+						"Skill select(mapColumn(",
+						"          Id,",
+						"          DeveloperName,",
+						"          MasterLabel",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select4",
+						"ServiceTerritoryMember select(mapColumn(",
+						"          Id,",
+						"          Street,",
+						"          City,",
+						"          PostalCode,",
+						"          StateCode,",
+						"          CountryCode,",
+						"          Latitude,",
+						"          Longitude,",
+						"          ServiceTerritoryId,",
+						"          ServiceResourceId",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select5",
+						"select2, join2 join(select2@Id == ServiceResourceId,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join1",
+						"select3, select4 join(SkillId == select4@Id,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join2",
+						"join1, select5 join(select2@Id == select5@ServiceResourceId,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join3",
+						"select1, join3 join(select1@Id == AccountId,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join4",
+						"join4 select(mapColumn(",
+						"          Id = select1@Id,",
+						"          PartnerName = Name,",
+						"          Phone,",
+						"          City,",
+						"          State = StateCode,",
+						"          ZipPostal = PostalCode,",
+						"          Country = CountryCode,",
+						"          MileageRate = Mileage_Rate__c,",
+						"          LaborRate = Labor_Rate__c,",
+						"          Rating,",
+						"          TravelRate = Travel_Rate__c,",
+						"          NPS = Net_Promoter_Score__c,",
+						"          Comment = Internal_Comments__c,",
+						"          PersonEmail,",
+						"          Street,",
+						"          Latitude,",
+						"          Longitude,",
+						"          DeveloperName,",
+						"          MasterLabel",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select6",
+						"select6 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Internal_Comments__c as string,",
+						"          Mileage_Rate__c as string,",
+						"          AccountId as string,",
+						"          Phone as string,",
+						"          Travel_Rate__c as string,",
+						"          Rating as string,",
+						"          SAP_Customer_Number__c as string,",
+						"          Id as string,",
+						"          PersonEmail as string,",
+						"          Labor_Rate__c as string,",
+						"          Name as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'document',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Account')]",
+				"[concat(variables('factoryId'), '/datasets/ServiceResource')]",
+				"[concat(variables('factoryId'), '/datasets/ServiceResourceSkill')]",
+				"[concat(variables('factoryId'), '/datasets/Skill')]",
+				"[concat(variables('factoryId'), '/datasets/ServiceTerritoryMember')]",
+				"[concat(variables('factoryId'), '/datasets/CosmosDbSqlApiCollection1')]"
+			]
+		}
+	]
+}
