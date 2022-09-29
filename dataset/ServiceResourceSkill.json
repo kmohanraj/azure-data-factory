@@ -1,0 +1,57 @@
+{
+	"name": "ServiceResourceSkill",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "SalesForce /Salesforce Global/Master/ServiceResourceSkill",
+				"container": "raw"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Id": {
+					"type": "string"
+				},
+				"ServiceResourceId": {
+					"type": "string"
+				},
+				"SkillId": {
+					"type": "string"
+				},
+				"IsDeleted": {
+					"type": "boolean"
+				},
+				"SkillNumber": {
+					"type": "string"
+				},
+				"Service_Resource_email__c": {
+					"type": "string"
+				},
+				"CurrencyIsoCode": {
+					"type": "string"
+				},
+				"CreatedDate": {
+					"type": "string"
+				},
+				"CreatedById": {
+					"type": "string"
+				},
+				"LastModifiedDate": {
+					"type": "string"
+				},
+				"LastModifiedById": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

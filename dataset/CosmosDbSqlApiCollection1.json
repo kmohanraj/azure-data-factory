@@ -1,0 +1,53 @@
+{
+	"name": "CosmosDbSqlApiCollection1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CosmosDb1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Internal_Comments__c": {
+					"type": "string"
+				},
+				"Mileage_Rate__c": {
+					"type": "string"
+				},
+				"AccountId": {
+					"type": "string"
+				},
+				"Phone": {
+					"type": "string"
+				},
+				"Travel_Rate__c": {
+					"type": "string"
+				},
+				"Rating": {
+					"type": "string"
+				},
+				"SAP_Customer_Number__c": {
+					"type": "string"
+				},
+				"Id": {
+					"type": "string"
+				},
+				"PersonEmail": {
+					"type": "string"
+				},
+				"Labor_Rate__c": {
+					"type": "string"
+				},
+				"Name": {
+					"type": "string"
+				}
+			}
+		},
+		"typeProperties": {
+			"collectionName": "test-db-1"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

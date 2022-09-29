@@ -1,0 +1,72 @@
+{
+	"name": "Account",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "SalesForce /Salesforce Global/Master/Account ",
+				"container": "raw"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Id": {
+					"type": "string"
+				},
+				"IsDeleted": {
+					"type": "boolean"
+				},
+				"MasterRecordId": {
+					"type": "null"
+				},
+				"Name": {
+					"type": "string"
+				},
+				"Phone": {
+					"type": "string"
+				},
+				"Rating": {
+					"type": "string"
+				},
+				"PersonEmail": {
+					"type": "string"
+				},
+				"SAP_Customer_Number__c": {
+					"type": "string"
+				},
+				"LastName": {
+					"type": "string"
+				},
+				"FirstName": {
+					"type": "string"
+				},
+				"Salutation": {
+					"type": "null"
+				},
+				"MiddleName": {
+					"type": "null"
+				},
+				"Suffix": {
+					"type": "null"
+				},
+				"Type": {
+					"type": "null"
+				},
+				"RecordTypeId": {
+					"type": "string"
+				},
+				"ParentId": {
+					"type": "null"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

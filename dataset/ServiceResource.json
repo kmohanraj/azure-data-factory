@@ -1,0 +1,72 @@
+{
+	"name": "ServiceResource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "SalesForce /Salesforce Global/Master/ServiceResource",
+				"container": "raw"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Id": {
+					"type": "string"
+				},
+				"AccountId": {
+					"type": "string"
+				},
+				"OwnerId": {
+					"type": "string"
+				},
+				"Name": {
+					"type": "string"
+				},
+				"Internal_Comments__c": {
+					"type": "string"
+				},
+				"Labor_Rate__c": {
+					"type": "string"
+				},
+				"Mileage_Rate__c": {
+					"type": "string"
+				},
+				"Travel_Rate__c": {
+					"type": "string"
+				},
+				"CurrencyIsoCode": {
+					"type": "string"
+				},
+				"RecordTypeId": {
+					"type": "null"
+				},
+				"CreatedDate": {
+					"type": "string"
+				},
+				"CreatedById": {
+					"type": "string"
+				},
+				"LastModifiedDate": {
+					"type": "string"
+				},
+				"LastModifiedById": {
+					"type": "string"
+				},
+				"SystemModstamp": {
+					"type": "string"
+				},
+				"Net_Promoter_Score__c": {
+					"type": "null"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,78 @@
+{
+	"name": "ServiceTerritoryMember",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage5",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "SalesForce /Salesforce Global/Master/ServiceTerritoryMember",
+				"container": "raw"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Id": {
+					"type": "string"
+				},
+				"IsDeleted": {
+					"type": "boolean"
+				},
+				"MemberNumber": {
+					"type": "string"
+				},
+				"Street": {
+					"type": "string"
+				},
+				"City": {
+					"type": "string"
+				},
+				"PostalCode": {
+					"type": "string"
+				},
+				"StateCode": {
+					"type": "string"
+				},
+				"CountryCode": {
+					"type": "string"
+				},
+				"Latitude": {
+					"type": "string"
+				},
+				"Longitude": {
+					"type": "string"
+				},
+				"CurrencyIsoCode": {
+					"type": "string"
+				},
+				"CreatedDate": {
+					"type": "string"
+				},
+				"CreatedById": {
+					"type": "string"
+				},
+				"LastModifiedDate": {
+					"type": "string"
+				},
+				"LastModifiedById": {
+					"type": "string"
+				},
+				"SystemModstamp": {
+					"type": "string"
+				},
+				"ServiceTerritoryId": {
+					"type": "string"
+				},
+				"ServiceResourceId": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
