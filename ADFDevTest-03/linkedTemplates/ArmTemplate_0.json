@@ -648,6 +648,8 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
+						"     modifiedAfter: ($start),",
+						"     modifiedBefore: ($end),",
 						"     documentForm: 'arrayOfDocuments') ~> Account",
 						"source(output(",
 						"          Id as string,",
