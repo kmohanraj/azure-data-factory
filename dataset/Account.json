@@ -29,18 +29,6 @@
 				"Name": {
 					"type": "string"
 				},
-				"Phone": {
-					"type": "string"
-				},
-				"Rating": {
-					"type": "string"
-				},
-				"PersonEmail": {
-					"type": "string"
-				},
-				"SAP_Customer_Number__c": {
-					"type": "string"
-				},
 				"LastName": {
 					"type": "string"
 				},
@@ -64,6 +52,21 @@
 				},
 				"ParentId": {
 					"type": "null"
+				},
+				"Phone": {
+					"type": "string"
+				},
+				"Rating": {
+					"type": "string"
+				},
+				"PersonEmail": {
+					"type": "string"
+				},
+				"SAP_Customer_Number__c": {
+					"type": "string"
+				},
+				"isActive": {
+					"type": "boolean"
 				}
 			}
 		}
