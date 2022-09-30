@@ -671,6 +671,9 @@
 						},
 						{
 							"name": "split1"
+						},
+						{
+							"name": "split2"
 						}
 					],
 					"scriptLines": [
@@ -743,8 +746,6 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
-						"     modifiedAfter: ($start),",
-						"     modifiedBefore: ($end),",
 						"     documentForm: 'arrayOfDocuments') ~> ServiceResourceSkill",
 						"source(output(",
 						"          Id as string,",
@@ -797,7 +798,7 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select1",
-						"ServiceResource select(mapColumn(",
+						"split2@isAccountID select(mapColumn(",
 						"          Id,",
 						"          AccountId,",
 						"          Internal_Comments__c,",
@@ -882,6 +883,8 @@
 						"     skipDuplicateMapOutputs: true) ~> select6",
 						"Account split(isActive===true(),",
 						"     disjoint: false) ~> split1@(fetchActiveAccount)",
+						"ServiceResource split(AccountId!='',",
+						"     disjoint: false) ~> split2@(isAccountID)",
 						"select6 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
