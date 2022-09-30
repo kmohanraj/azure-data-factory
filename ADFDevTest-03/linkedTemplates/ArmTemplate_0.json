@@ -147,18 +147,6 @@
 						"Name": {
 							"type": "string"
 						},
-						"Phone": {
-							"type": "string"
-						},
-						"Rating": {
-							"type": "string"
-						},
-						"PersonEmail": {
-							"type": "string"
-						},
-						"SAP_Customer_Number__c": {
-							"type": "string"
-						},
 						"LastName": {
 							"type": "string"
 						},
@@ -182,6 +170,21 @@
 						},
 						"ParentId": {
 							"type": "null"
+						},
+						"Phone": {
+							"type": "string"
+						},
+						"Rating": {
+							"type": "string"
+						},
+						"PersonEmail": {
+							"type": "string"
+						},
+						"SAP_Customer_Number__c": {
+							"type": "string"
+						},
+						"isActive": {
+							"type": "boolean"
 						}
 					}
 				}
@@ -613,6 +616,9 @@
 						},
 						{
 							"name": "select6"
+						},
+						{
+							"name": "split1"
 						}
 					],
 					"scriptLines": [
@@ -625,10 +631,6 @@
 						"          IsDeleted as boolean,",
 						"          MasterRecordId as string,",
 						"          Name as string,",
-						"          Phone as string,",
-						"          Rating as string,",
-						"          PersonEmail as string,",
-						"          SAP_Customer_Number__c as string,",
 						"          LastName as string,",
 						"          FirstName as string,",
 						"          Salutation as string,",
@@ -636,13 +638,16 @@
 						"          Suffix as string,",
 						"          Type as string,",
 						"          RecordTypeId as string,",
-						"          ParentId as string",
+						"          ParentId as string,",
+						"          Phone as string,",
+						"          Rating as string,",
+						"          PersonEmail as string,",
+						"          SAP_Customer_Number__c as string,",
+						"          isActive as boolean",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
-						"     modifiedAfter: ($start),",
-						"     modifiedBefore: ($end),",
 						"     documentForm: 'arrayOfDocuments') ~> Account",
 						"source(output(",
 						"          Id as string,",
@@ -729,7 +734,7 @@
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     documentForm: 'arrayOfDocuments') ~> ServiceTerritoryMember",
-						"Account select(mapColumn(",
+						"split1@fetchActiveAccount select(mapColumn(",
 						"          Id,",
 						"          Name,",
 						"          Phone,",
@@ -821,6 +826,8 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select6",
+						"Account split(isActive===true(),",
+						"     disjoint: false) ~> split1@(fetchActiveAccount)",
 						"select6 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
